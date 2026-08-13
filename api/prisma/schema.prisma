@@ -11,3 +11,67 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  ADMIN
+  TECHNICIAN
+  CUSTOMER
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      Role     @default(CUSTOMER)
+  avatarUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  technician TechnicianAvailability[]
+  ticket     Ticket[]
+
+  @@map("user")
+}
+
+model TechnicianAvailability {
+  id           String @id @default(uuid())
+  technicianId String @unique
+
+  technician User     @relation(fields: [technicianId], references: [id])
+  ticket     Ticket[]
+
+  @@map("technician_availability")
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Int
+  active      Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+
+  @@map("service")
+}
+
+model Ticket {
+  id           String   @id @default(uuid())
+  customerId   String
+  technicianId String
+  status       Status
+  scheduledAt  DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+
+  customer   User                   @relation(fields: [customerId], references: [id])
+  technician TechnicianAvailability @relation(fields: [technicianId], references: [technicianId])
+
+  @@map("ticket")
+}
