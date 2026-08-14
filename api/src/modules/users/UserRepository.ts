@@ -1,4 +1,5 @@
-import { prisma } from "../prisma/prisma.js";
+import { prisma } from "../../shared/prisma/prisma.js";
+
 
 class UserRepository {
   async listAll() {

@@ -1,7 +1,7 @@
-import { UserRepository } from "../repositories/UserRepository.js";
 import type { Request, Response } from "express";
-import { UserService } from "../services/UserService.js";
-import { AppError } from "../utils/AppError.js";
+import { UserService } from "./UserService.js";
+import { AppError } from "../../shared/utils/AppError.js";
+import { UserRepository } from "./UserRepository.js";
 
 const repository = new UserRepository();
 const service = new UserService();
@@ -13,7 +13,7 @@ class UserController {
   }
 
   async getUserById(request: Request, response: Response) {
-    const user = await service.getUserById(request)
+    const user = await service.getUserById(request);
 
     return response.json(user);
   }
