@@ -34,7 +34,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   technician TechnicianAvailability[]
-  ticket     Ticket[]
+  customerTickets   Ticket[] @relation("CustomerFields")
+  technicianTickets Ticket[] @relation("TechnicianFields")
 
   @@map("user")
 }
@@ -44,7 +45,6 @@ model TechnicianAvailability {
   technicianId String @unique
 
   technician User     @relation(fields: [technicianId], references: [id])
-  ticket     Ticket[]
 
   @@map("technician_availability")
 }
@@ -70,8 +70,8 @@ model Ticket {
   createdAt    DateTime @default(now())
   updatedAt    DateTime
 
-  customer   User                   @relation(fields: [customerId], references: [id])
-  technician TechnicianAvailability @relation(fields: [technicianId], references: [technicianId])
+  customer   User                   @relation("CustomerFields",fields: [customerId], references: [id])
+  technician User @relation("TechnicianFields",fields: [technicianId], references: [id])
 
   @@map("ticket")
 }
