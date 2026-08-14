@@ -2,7 +2,8 @@ import { prisma } from "../prisma/prisma.js";
 
 class UserRepository {
   async listAll() {
-    return await prisma.user.findMany();
+    const users = await prisma.user.findMany();
+    return users;
   }
 
   async searchByEmail(email: string) {
@@ -11,6 +12,16 @@ class UserRepository {
         email,
       },
     });
+    return user;
+  }
+
+  async searchById(id: string) {
+    const user = prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
     return user;
   }
 

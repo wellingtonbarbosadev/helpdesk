@@ -11,7 +11,7 @@ export function errorHandler(
   if (err instanceof ZodError) {
     return response.status(400).json({
       message: "Validation error",
-      errors: z.prettifyError(err),
+      errors: z.flattenError(err),
     });
   }
 

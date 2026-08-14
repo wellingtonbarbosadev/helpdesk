@@ -1,7 +1,8 @@
 import express from "express";
 import { env } from "./config/env.js";
 import { routes } from "./routes/index.js";
-import { errorHandler } from "./utils/ErrorHandler.js";
+import { errorHandler } from "./utils/errorHandler.js";
+
 
 export const app = express();
 
