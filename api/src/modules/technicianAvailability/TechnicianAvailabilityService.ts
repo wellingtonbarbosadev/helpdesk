@@ -1,0 +1,3 @@
+class TechnicianAvailabilityService {}
+
+export { TechnicianAvailabilityService };
