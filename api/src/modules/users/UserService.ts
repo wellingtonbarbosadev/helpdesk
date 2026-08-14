@@ -1,11 +1,10 @@
-import z from "zod";
-import { UserRepository } from "../repositories/UserRepository.js";
 import {
   userCreateSchema,
   userIdSchemaParams,
-} from "../schemas/user.schema.js";
-import { AppError } from "../utils/AppError.js";
+} from "../../shared/schemas/user.schema.js";
+import { AppError } from "../../shared/utils/AppError.js";
 import type { Request } from "express";
+import { UserRepository } from "./UserRepository.js";
 
 const repository = new UserRepository();
 
