@@ -7,9 +7,15 @@ const repository = new UserRepository();
 const service = new UserService();
 
 class UserController {
-  listUsers(request: Request, response: Response) {
-    const users = repository.listAll();
+  async listUsers(request: Request, response: Response) {
+    const users = await repository.listAll();
     return response.json(users);
+  }
+
+  async getUserById(request: Request, response: Response) {
+    const user = await service.getUserById(request)
+
+    return response.json(user);
   }
 
   async createUser(request: Request, response: Response) {

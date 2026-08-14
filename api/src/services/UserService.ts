@@ -1,23 +1,39 @@
 import z from "zod";
 import { UserRepository } from "../repositories/UserRepository.js";
-import { userCreateSchema } from "../schemas/user.schema.js";
+import {
+  userCreateSchema,
+  userIdSchemaParams,
+} from "../schemas/user.schema.js";
 import { AppError } from "../utils/AppError.js";
+import type { Request } from "express";
 
 const repository = new UserRepository();
 
 class UserService {
+  async getUserById(request: Request) {
+    const { id } = userIdSchemaParams.parse(request.params);
+
+    const user = await repository.searchById(id);
+
+    if (!user) {
+      throw new AppError("user with this id not exists");
+    }
+
+    return user;
+  }
+
   async createUser(userData: User) {
-    const user = userCreateSchema.parse(userData);
+    const user = userCreateSchema.parse(userData ?? {});
 
     const searchPossibleExistingUser = await repository.searchByEmail(
       user.email,
     );
 
     if (searchPossibleExistingUser) {
-      throw new AppError("User already exist with this email");
+      throw new AppError("user with this email already exists");
     }
 
-    return await repository.createUser(user);
+    return repository.createUser(user);
   }
 }
 
