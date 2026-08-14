@@ -6,5 +6,6 @@ const usersController = new UserController();
 const usersRouter = Router();
 
 usersRouter.get("/", usersController.listUsers);
+usersRouter.post("/", usersController.createUser);
 
 export { usersRouter };
