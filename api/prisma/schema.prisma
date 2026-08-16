@@ -43,6 +43,7 @@ model User {
 model TechnicianAvailability {
   id           String @id @default(uuid())
   technicianId String @unique
+  hours Json @default("[]")
 
   technician User     @relation(fields: [technicianId], references: [id])
 
