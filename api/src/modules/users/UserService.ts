@@ -5,6 +5,7 @@ import {
 import { AppError } from "../../shared/utils/AppError.js";
 import type { Request } from "express";
 import { UserRepository } from "./UserRepository.js";
+import { hash } from "bcrypt";
 
 const repository = new UserRepository();
 
@@ -32,7 +33,9 @@ class UserService {
       throw new AppError("user with this email already exists");
     }
 
-    return repository.createUser(user);
+    const password = await hash(user.password, 8);
+
+    return repository.createUser({ ...user, password });
   }
 }
 

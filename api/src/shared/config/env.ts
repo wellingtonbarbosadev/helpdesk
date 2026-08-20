@@ -3,7 +3,8 @@ import z, { ZodError } from "zod"
 
 const envSchema = z.object({
   PORT: z.coerce.number(),
-  DATABASE_URL: z.string()
+  DATABASE_URL: z.string(),
+  JWT_SECRET: z.string(),
 });
 
 export let env: z.infer<typeof envSchema>;
